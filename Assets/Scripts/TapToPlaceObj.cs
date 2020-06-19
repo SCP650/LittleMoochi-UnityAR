@@ -10,30 +10,61 @@ public class TapToPlaceObj : MonoBehaviour
     private ARRaycastManager arRaycast;
     private Pose placementPose;
     private bool placementPoseIsValid = false;
+    private List<GameObject> objectsList;
 
     public GameObject placementIndicator;
     public GameObject objectToPlace;
-
+    
 
     void Start()
     {
         arOrigin = FindObjectOfType<ARSessionOrigin>();
         arRaycast = FindObjectOfType<ARRaycastManager>();
+        objectsList = new List<GameObject>();
+        placementIndicator.SetActive(false);
     }
  
-    void Update()
+    public void StartPlayingAR()
     {
-        UpdatePlacementPose();
-        UpdatePlacementIndicator();
-        if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            PlaceObject();
+        StartCoroutine(StartScanning());
+
+    }
+    public void StopPlayingAR()
+    {
+        placementIndicator.SetActive(false);
+        StopAllCoroutines();
+    }
+    private IEnumerator StartScanning()
+    {
+        while(true){
+            UpdatePlacementPose();
+            UpdatePlacementIndicator();
+            //if (placementPoseIsValid && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+            //{
+            //    PlaceObject();
+            //} 
+            //use button
+            yield return null;
         }
     }
 
-    private void PlaceObject()
+
+    public void PlaceObject()
     {
-        Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
+        if (placementPoseIsValid)
+        {
+            GameObject temp = Instantiate(objectToPlace, placementPose.position, placementPose.rotation);
+            objectsList.Add(temp);
+        }
+       
+    }
+
+    public void DestroyAllObjects()
+    {
+        foreach(GameObject go in objectsList)
+        {
+            Destroy(go);
+        }
     }
     private void UpdatePlacementPose()
     {
