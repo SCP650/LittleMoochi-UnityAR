@@ -21,7 +21,7 @@ public class TapToPlaceObj : MonoBehaviour
         arOrigin = FindObjectOfType<ARSessionOrigin>();
         arRaycast = FindObjectOfType<ARRaycastManager>();
         objectsList = new List<GameObject>();
-        placementIndicator.SetActive(false);
+        placementIndicator.SetActive(true);
     }
  
     public void StartPlayingAR()
@@ -31,7 +31,7 @@ public class TapToPlaceObj : MonoBehaviour
     }
     public void StopPlayingAR()
     {
-        placementIndicator.SetActive(false);
+        //placementIndicator.SetActive(false);
         StopAllCoroutines();
     }
     private IEnumerator StartScanning()
@@ -82,6 +82,7 @@ public class TapToPlaceObj : MonoBehaviour
     }
     void UpdatePlacementIndicator()
     {
+        print("Updating Placement Indicator");
         if (placementPoseIsValid)
         {
             placementIndicator.SetActive(true);

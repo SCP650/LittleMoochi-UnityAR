@@ -12,7 +12,7 @@ public class ARController : MonoBehaviour
     private void Start()
     {
 
-        Screen.orientation = ScreenOrientation.LandscapeLeft;
+        Screen.orientation = ScreenOrientation.Portrait;//ScreenOrientation.LandscapeLeft;
     }
     public void togglePlay()
     {
